@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
+"""Script that calculates the shape of a matrix"""
+
+
 def matrix_shape(matrix):
-    """
-    Module that defines a function to compute the shape of a matrix.
-
-    Functions:
-        matrix_shape(matrix): Returns the dimensions of a matrix as a list.
-
-    Parameters: matrix that needs shape defined
-    """
+    """Script that calculates the shape of a matrix"""
     shape = []
     while isinstance(matrix, list):
         shape.append(len(matrix))
