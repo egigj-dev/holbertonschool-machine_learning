@@ -4,4 +4,6 @@
 
 def poly_derivative(poly):
     """Derivative of a polynomial function."""
+    if len(poly) < 2:
+        return [0]
     return [poly[i] * i for i in range(len(poly)) if i > 0]
