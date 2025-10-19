@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Script that returns the transpose of a 2D matrix"""
+"""Script that returns the transpose of a 2D matrix."""
 
 
 def matrix_transpose(matrix):
-    """Script that returns the transpose of a 2D matrix"""
+    """Script that returns the transpose of a 2D matrix."""
     transposed_matrix = []
     for i in range(len(matrix[0])):
         new_row = []

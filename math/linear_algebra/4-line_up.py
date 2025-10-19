@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Script that that adds two arrays element-wise"""
+"""Script that that adds two arrays element-wise."""
 
 
 def add_arrays(arr1, arr2):
-    """Script that that adds two arrays element-wise"""
+    """Script that that adds two arrays element-wise."""
     if len(arr1) != len(arr2):
         return None
     result = []
