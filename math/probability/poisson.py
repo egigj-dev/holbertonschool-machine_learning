@@ -32,7 +32,7 @@ class Poisson:
         # Manual exponential (approx e ≈ 2.7182818285)
         e = 2.7182818285
         exp = e ** (-self.lambtha)
-        return (exp(-mean) * mean ** k) / factorial(k)
+        return (exp * (mean ** k)) / factorial
 
     def cdf(self, k):
         """Calculate the value of the CDF for a given number of “successes”"""
