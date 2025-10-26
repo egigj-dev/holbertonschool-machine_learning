@@ -26,6 +26,7 @@ class Binomial:
             n_round = mean / p_first
             self.n = round(n_round)
             self.p = mean / self.n
+
     def pmf(self, k):
         """
         Calculates the Probability Mass Function (PMF)
@@ -35,6 +36,7 @@ class Binomial:
             k = int(k)
         if k < 0 or k > self.n:
             return 0
+        
         def factorial(x):
             """ Function  for factorial """
             if x == 0 or x == 1:
@@ -47,6 +49,7 @@ class Binomial:
         comb = factorial(self.n) / (factorial(k) * factorial(self.n - k))
         # PMF: C(n, k) * p^k * (1 - p)^(n - k)
         return comb * (self.p ** k) * ((1 - self.p) ** (self.n - k))
+    
     def cdf(self, k):
         """
         Calculate the cumulative distribution function (CDF) for a given
