@@ -2,7 +2,6 @@
 """
 Poisson tasks class
 """
-from math import exp, factorial
 
 
 class Poisson:
@@ -26,6 +25,13 @@ class Poisson:
         if k < 0:
             return 0
         mean = self.lambtha
+        # Manual factorial
+        factorial = 1
+        for i in range(1, k + 1):
+            factorial *= i
+        # Manual exponential (approx e ≈ 2.7182818285)
+        e = 2.7182818285
+        exp = e ** (-self.lambtha)
         return (exp(-mean) * mean ** k) / factorial(k)
 
     def cdf(self, k):
