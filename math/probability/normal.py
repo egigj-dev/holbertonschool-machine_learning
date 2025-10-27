@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Normal distribution class (no modules imported)
+Normal distribution class
 """
 
 
