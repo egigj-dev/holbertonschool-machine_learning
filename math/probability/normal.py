@@ -10,6 +10,7 @@ class Normal:
     def __init__(self, data=None, mean=0., stddev=1.):
         """
         Class constructor
+
         Args:
             data (list): list of data to estimate the distribution
             mean (float): mean of the distribution
@@ -26,20 +27,18 @@ class Normal:
             if len(data) < 2:
                 raise ValueError("data must contain multiple values")
 
-            # Calculate mean
             self.mean = sum(data) / len(data)
-
-            # Calculate standard deviation
             variance = sum((x - self.mean) ** 2 for x in data) / len(data)
             self.stddev = self._sqrt(variance)
 
     # ---------- helper math methods ----------
+
     def _sqrt(self, x):
         """Compute square root using Newton’s method"""
         if x == 0:
             return 0
-        guess = x
-        for _ in range(100):
+        guess = x / 2
+        for _ in range(10):
             guess = 0.5 * (guess + x / guess)
         return guess
 
@@ -47,21 +46,27 @@ class Normal:
         """Compute exponential using Taylor series"""
         term = 1.0
         total = 1.0
-        for n in range(1, 30):
+        for n in range(1, 50):
             term *= x / n
             total += term
         return total
 
     def _erf(self, x):
         """Approximation of error function"""
-        # Abramowitz and Stegun approximation
         t = 1.0 / (1.0 + 0.3275911 * abs(x))
-        a1, a2, a3, a4, a5 = 0.254829592, -0.284496736, 1.421413741, -1.453152027, 1.061405429
+        a1 = 0.254829592
+        a2 = -0.284496736
+        a3 = 1.421413741
+        a4 = -1.453152027
+        a5 = 1.061405429
         poly = (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t
-        approx = 1 - poly * self._exp(-x * x)
-        return approx if x >= 0 else -approx
+        ans = 1 - poly * self._exp(-x * x)
+        if x < 0:
+            ans = -ans
+        return ans
 
     # ---------- distribution methods ----------
+
     def z_score(self, x):
         """Calculates the z-score of a given x-value"""
         return (x - self.mean) / self.stddev
@@ -74,8 +79,8 @@ class Normal:
         """Calculates the value of the PDF for a given x-value"""
         pi = 3.141592653589793
         e = 2.718281828459045
-        exponent = -((x - self.mean) ** 2) / (2 * self.stddev ** 2)
-        return (1 / (self.stddev * self._sqrt(2 * pi))) * (e ** exponent)
+        exp = self._exp(-((x - self.mean) ** 2) / (2 * self.stddev ** 2))
+        return (1 / (self.stddev * self._sqrt(2 * pi))) * exp
 
     def cdf(self, x):
         """Calculates the value of the CDF for a given x-value"""
