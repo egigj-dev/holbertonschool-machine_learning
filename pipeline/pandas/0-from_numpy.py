@@ -2,6 +2,7 @@
 """ Script that creates a Pandas Dataframe from a Numpy array """
 import pandas as pd
 
+
 def from_numpy(array):
     """Creates a pandas DataFrame from a NumPy ndarray."""
     num_cols = array.shape[1] if array.ndim > 1 else 1
