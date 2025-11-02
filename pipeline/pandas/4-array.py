@@ -3,8 +3,7 @@
 
 
 def array(df):
-    """Creates a Numpy array from a Pandas Dataframe."""
-    df = df[['High', 'Close']]
-    df = df.dropna()
-    arr = df.to_numpy()
+    """Selects the last 10 rows of High and Close and converts to a numpy array."""
+    df_selected = df[['High', 'Close']].tail(10)
+    arr = df_selected.to_numpy()
     return arr
