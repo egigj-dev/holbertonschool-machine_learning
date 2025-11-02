@@ -5,7 +5,7 @@ import pandas as pd
 
 def concat(df1, df2):
     """
-    Concatenates two DataFrames (df1 and df2) with proper indexing and labeling.
+    Concatenates two DataFrames with proper indexing and labeling.
     """
     # Import the index function
     index = __import__('10-index').index
@@ -18,6 +18,6 @@ def concat(df1, df2):
     df2_selected = df2[df2.index <= 1417411920]
 
     # 3. Concatenate df2_selected on top of df1
-    concatenated = pd.concat([df2_selected, df1], keys=['bitstamp', 'coinbase'])
-
+    concatenated = pd.concat([df2_selected, df1], 
+                             keys=['bitstamp', 'coinbase'])
     return concatenated

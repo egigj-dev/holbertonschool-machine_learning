@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """ Script that transforms a Pandas Dataframe"""
-import pandas as pd
 
 
 def flip_switch(df):
