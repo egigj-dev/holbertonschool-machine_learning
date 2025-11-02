@@ -4,5 +4,5 @@
 
 def flip_switch(df):
     """Flips a dataframe"""
-    df = df.sort_values(df['Timestamp'], ascending=False)
+    df = df.sort_values('Timestamp', ascending=False)
     return df.T

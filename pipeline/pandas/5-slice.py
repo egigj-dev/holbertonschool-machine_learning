@@ -5,5 +5,3 @@
 def slice(df):
     """Slices a dataframe"""
     return df.iloc[::60][['High', 'Low', 'Close', 'Volume_(BTC)']]
-
-
