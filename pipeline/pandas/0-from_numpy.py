@@ -11,4 +11,4 @@ def from_numpy(array):
     num_cols = array.shape[1] if array.ndim > 1 else 1
     columns = [chr(65 + i) for i in range(num_cols)]
     df = pd.DataFrame(array, columns=columns)
-    return
+    return df
