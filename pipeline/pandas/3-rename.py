@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Script that manipulates a dataframe column"""
 import pandas as pd
-from_file = __import__('2-from_file').from_file
+
 
 def rename(df):
     """Renames a dataframe column"""
