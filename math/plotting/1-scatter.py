@@ -3,6 +3,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
+
 def scatter():
     """Script that plots a scatter graph"""
     mean = [69, 0]
