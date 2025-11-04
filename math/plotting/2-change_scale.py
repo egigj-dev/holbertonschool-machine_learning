@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Script that plots two line graphs"""
+"""Script that plots a log graph"""
 import numpy as np
 import matplotlib.pyplot as plt
 
 
 def change_scale():
-    """Method that plots two line graphs"""
+    """Method that plots a log graph"""
     x = np.arange(0, 28651, 5730)
     r = np.log(0.5)
     t = 5730
