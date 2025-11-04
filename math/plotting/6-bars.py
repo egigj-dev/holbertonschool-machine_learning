@@ -18,24 +18,12 @@ def bars():
 
     # Stack bars
     plt.bar(x, apples, width=0.5, color='red', label='apples')
-    plt.bar(x, 
-            bananas, 
-            width=0.5, 
-            bottom=apples, 
-            color='yellow', 
-            label='bananas')
-    plt.bar(x, 
-            oranges, 
-            width=0.5, 
-            bottom=apples + bananas, 
-            color='#ff8000', 
-            label='oranges')
-    plt.bar(x, 
-            peaches, 
-            width=0.5, 
-            bottom=apples + bananas + oranges, 
-            color='#ffe5b4', 
-            label='peaches')
+    plt.bar(x, bananas, width=0.5, bottom=apples, 
+            color='yellow', label='bananas')
+    plt.bar(x, oranges, width=0.5, bottom=apples + bananas, 
+            color='#ff8000', label='oranges')
+    plt.bar(x, peaches, width=0.5, bottom=apples + bananas + oranges, 
+            color='#ffe5b4', label='peaches')
 
     # Labels and title
     plt.ylabel("Quantity of Fruit")
