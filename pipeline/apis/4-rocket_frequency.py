@@ -25,7 +25,9 @@ if __name__ == "__main__":
         frequency[rocket_id] = frequency.get(rocket_id, 0) + 1
 
     # Convert rocket IDs to names and print sorted alphabetically
-    for rocket_id in sorted(frequency, 
-        key=lambda x: (-frequency[x], rocket_names[x])
-        ):
-        print(f"{rocket_names[rocket_id]}: {frequency[rocket_id]}")
+    sorted_ids = sorted(
+        frequency,
+        key=lambda rid: (-frequency[rid], rocket_names[rid])
+    )
+    for rid in sorted_ids:
+        print(f"{rocket_names[rid]}: {frequency[rid]}")
