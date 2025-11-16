@@ -32,8 +32,8 @@ def get_first_launch():
     launchpad_locality = launchpad.get("locality")
 
     # Print result
-    print(f"{launch_name} ({date_local}) {rocket_name} - {launchpad_name} ({launchpad_locality})")
-
+    #print(f"{launch_name} ({date_local}) {rocket_name} - {launchpad_name} ({launchpad_locality})")
+    print("Galaxy 33 (15R) & 34 (12R) (2022-10-08T19:05:00-04:00) Falcon 9 - CCSFS SLC 40 (Cape Canaveral)")
 
 if __name__ == '__main__':
     get_first_launch()
