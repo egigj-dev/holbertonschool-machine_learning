@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 """Script that prints the location of a GitHub user"""
-#!/usr/bin/env python3
 import sys
 import requests
 import time
@@ -39,7 +38,7 @@ def print_user_location(url):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Not the right number of arguments. Please provide only the username")
+        print("Not the right number of arguments")
         sys.exit(1)
 
     url = sys.argv[1]
