@@ -1,0 +1,28 @@
+{
+  "total_planets": 6052,
+  "total_features": 36,
+  "date_collected": "2025-11-25 02:57:20",
+  "sources": [
+    "NASA Exoplanet Archive",
+    "Kaggle Dataset"
+  ],
+  "key_statistics": {
+    "discovery_methods": {
+      "Transit": 4464,
+      "Radial Velocity": 1158,
+      "Microlensing": 262,
+      "Imaging": 87,
+      "Transit Timing Variations": 39,
+      "Eclipse Timing Variations": 17,
+      "Orbital Brightness Modulation": 9,
+      "Pulsar Timing": 8,
+      "Astrometry": 5,
+      "Pulsation Timing Variations": 2,
+      "Disk Kinematics": 1
+    },
+    "year_range": {
+      "min": 1992,
+      "max": 2025
+    }
+  }
+}
