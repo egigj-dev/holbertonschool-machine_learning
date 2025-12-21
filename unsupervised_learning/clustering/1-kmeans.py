@@ -25,7 +25,7 @@ def kmeans(X, k, iterations=1000):
     high = X.max(axis=0)
     C = np.random.uniform(low, high, size=(k, d))
     
-    # Main K-means loop
+    # Main K-means loop (LOOP #1)
     for i in range(iterations):
         # Store old centroids to check for convergence
         C_old = C.copy()
@@ -39,7 +39,7 @@ def kmeans(X, k, iterations=1000):
         # clss shape: (n,) - cluster index for each point
         clss = np.argmin(distances, axis=1)
         
-        # Update step: recalculate centroids
+        # Update step: recalculate centroids (LOOP #2)
         for j in range(k):
             # Find all points assigned to cluster j
             cluster_points = X[clss == j]
@@ -55,9 +55,5 @@ def kmeans(X, k, iterations=1000):
         # Check for convergence (no change in centroids)
         if np.all(C == C_old):
             break
-    
-    # Final assignment with final centroids
-    distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
-    clss = np.argmin(distances, axis=1)
     
     return C, clss
