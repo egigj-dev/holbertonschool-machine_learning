@@ -5,7 +5,7 @@ import numpy as np
 
 def variance(X, C):
     """
-    Calculates the total intra-cluster variance for a data set.
+    Calculates the total intra-cluster variance given a dataset
     """
     # Input validation
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
@@ -26,8 +26,8 @@ def variance(X, C):
     # After broadcasting: (n, k, d)
     distances = np.linalg.norm(X[:, np.newaxis] - C, axis=2)
     
-    # Find minimum distance for each point (distance to nearest centroid)
-    # Shape: (n,) - minimum distance for each point
+    # Find minimum distance (distance to nearest centroid)
+    # Shape: (n,) - minimum distance
     min_distances = np.min(distances, axis=1)
     
     # Calculate total variance (sum of squared minimum distances)
