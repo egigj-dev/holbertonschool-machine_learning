@@ -40,7 +40,7 @@ def kmeans(X, k, iterations=1000):
                 C[j] = np.mean(points, axis=0)
 
         # ----- Convergence check -----
-        if np.all(C == C_prev):
+        if np.allclose(C, C_prev):
             break
 
     return C, clss
