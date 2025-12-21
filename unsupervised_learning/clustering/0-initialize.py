@@ -23,4 +23,3 @@ def initialize(X, k):
 
     # Randomly generate centroids
     return np.random.uniform(low, high, size=(k, d))
-    return np.random.uniform(X.min(axis=0), X.max(axis=0), (k, X.shape[1]))
