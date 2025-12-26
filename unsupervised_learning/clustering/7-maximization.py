@@ -22,7 +22,7 @@ def maximization(X, g):
         return None, None, None
 
     # Columns of g must sum to 1
-    if not np.isclose(np.sum(g, axis=0), 1).all():
+    if not np.isclose(np.sum(g, axis=0), 1, atol=1e-8).all():
         return None, None, None
 
     # Responsibilities per cluster
