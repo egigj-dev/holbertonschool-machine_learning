@@ -1,31 +1,28 @@
 #!/usr/bin/env python3
-"""Principal Component Analysis (PCA) transformation module"""
+"""PCA dimensionality reduction"""
 import numpy as np
 
 
 def pca(X, ndim):
     """
-    Performs PCA on a dataset.
+    Performs PCA on X and reduces it to ndim dimensions.
     """
-    # Input validation
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None
-    
     n, d = X.shape
-    
     if not isinstance(ndim, int) or ndim <= 0 or ndim > d:
         return None
-    
-    # Center the data by subtracting the mean
-    X_m = X - np.mean(X, axis=0)
-    
-    # Compute the Singular Value Decomposition (SVD)
-    U, S, VT = np.linalg.svd(X_m, full_matrices=False)
-    
-    # Extract the first ndim right singular vectors (principal components)
-    W = VT[:ndim].T
-    
-    # Transform X by projecting onto the principal components
-    T = np.dot(X_m, W)
-    
+
+    # Center the data (zero mean)
+    X_centered = X - np.mean(X, axis=0)
+
+    # Compute SVD
+    U, S, Vh = np.linalg.svd(X_centered, full_matrices=False)
+    V = Vh.T  # Principal components
+
+    # Select first ndim components
+    W = V[:, :ndim]
+
+    # Transform the datas
+    T = X_centered @ W
     return T
