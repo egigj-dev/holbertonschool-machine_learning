@@ -21,12 +21,11 @@ def maximization(X, g):
     if np.any(g < 0):
         return None, None, None
 
-    # Columns of g must sum to 1 (very important!)
-    col_sums = np.sum(g, axis=0)
-    if not np.allclose(col_sums, 1):
+    # Columns of g must sum to 1
+    if not np.isclose(np.sum(g, axis=0), 1).all():
         return None, None, None
 
-    # Sum of responsibilities per cluster
+    # Responsibilities per cluster
     Nk = np.sum(g, axis=1)
     if np.any(Nk == 0):
         return None, None, None
@@ -37,11 +36,10 @@ def maximization(X, g):
     # Means
     m = (g @ X) / Nk[:, None]
 
-    # Covariances (ONLY LOOP)
+    # Covariances (ONLY ONE LOOP)
     S = np.zeros((k, d, d))
     for i in range(k):
         diff = X - m[i]
-        # weight each data point by responsibility
         weighted = g[i][:, None] * diff
         S[i] = (weighted.T @ diff) / Nk[i]
 
