@@ -37,7 +37,7 @@ def pdf(X, m, S):
     except np.linalg.LinAlgError:
         return None
     
-    # Calculate (X - m) @ S_inv @ (X - m).T for each point
+    # Calculate (X - m) @ S_inv @ (X - m).T of each point
     # Using matrix operations: sum((X - m) * (S_inv @ (X - m).T).T, axis=1)
     # Equivalent to: sum((X - m) * ((X - m) @ S_inv.T), axis=1)
     S_inv_diff = diff @ S_inv.T  # shape (n, d)

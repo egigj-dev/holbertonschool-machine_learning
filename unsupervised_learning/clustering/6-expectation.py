@@ -38,7 +38,7 @@ def expectation(X, pi, m, S):
     # Shape: (k, n)
     numerator = np.zeros((k, n))
     
-    # Calculate PDF for each cluster (LOOP - allowed to have at most 1)
+    # Calculate PDF of each cluster
     for i in range(k):
         P = pdf(X, m[i], S[i])
         

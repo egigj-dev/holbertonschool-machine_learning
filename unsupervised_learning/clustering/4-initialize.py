@@ -16,7 +16,7 @@ def initialize(X, k):
     if not isinstance(k, int) or k <= 0 or k > n:
         return None, None, None
     
-    # Initialize pi: uniform priors for each cluster
+    # Initialize pi
     pi = np.ones(k) / k
     
     # Initialize m: use K-means to get centroids
@@ -26,7 +26,7 @@ def initialize(X, k):
     if m is None:
         return None, None, None
     
-    # Initialize S: identity matrices for each cluster
+    # Initialize S
     S = np.tile(np.eye(d), (k, 1, 1))
     
     return pi, m, S

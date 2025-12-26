@@ -45,7 +45,7 @@ def BIC(X, kmin=1, kmax=None, iterations=1000, tol=1e-5, verbose=False):
     
     # Test each k value (LOOP - allowed to have at most 1)
     for i, k in enumerate(range(kmin, kmax + 1)):
-        # Run EM algorithm for this k
+        # Run EM algorithm
         pi, m, S, g, log_likelihood = expectation_maximization(X, k, iterations, tol, verbose)
         
         if pi is None or m is None or S is None:

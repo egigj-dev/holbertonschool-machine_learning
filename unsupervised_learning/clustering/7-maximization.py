@@ -20,11 +20,11 @@ def maximization(X, g):
     if g.shape[1] != n:
         return None, None, None
     
-    # Calculate Nk: sum of responsibilities for each cluster
+    # Calculate Nk: sum of responsibilities of each cluster
     # Shape: (k,)
     Nk = np.sum(g, axis=1)
     
-    # Check for zero responsibilities
+    # Check if any zero responsibilities
     if np.any(Nk == 0):
         return None, None, None
     
