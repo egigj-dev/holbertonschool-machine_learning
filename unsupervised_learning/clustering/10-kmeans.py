@@ -4,7 +4,8 @@ import sklearn.cluster
 
 
 def kmeans(X, k):
-    """Performs K-means on a dataset."""    
+    """Performs K-means on a dataset."""
+     
     n, d = X.shape
     if not isinstance(k, int) or k <= 0 or k > n:
         return None, None
