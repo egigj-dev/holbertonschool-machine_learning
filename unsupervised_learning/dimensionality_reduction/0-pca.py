@@ -32,6 +32,10 @@ def pca(X, var=0.95):
             W[:, i] *= -1
 
     # Project X onto principal components
-    X_transformed = X @ W
+    X_transformed, W = pca(X)
+    print(X_transformed)
+    print(X_transformed.shape)
+    print(W)
+    print(W.shape)
 
     return X_transformed, W
