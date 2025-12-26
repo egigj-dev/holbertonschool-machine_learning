@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""PCA dimensionality reduction"""
+"""PCA dimensionality reduction to a fixed number of components"""
 import numpy as np
 
 
 def pca(X, ndim):
     """
-    Performs PCA on X and reduces it to ndim dimensions.
+    Performs PCA on a dataset and reduces it to 'ndim' dimensions.
     """
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
         return None
@@ -18,11 +18,11 @@ def pca(X, ndim):
 
     # Compute SVD
     U, S, Vh = np.linalg.svd(X_centered, full_matrices=False)
-    V = Vh.T  # Principal components
 
-    # Select first ndim components
-    W = V[:, :ndim]
+    # Principal components (take the first 'ndim' components)
+    W = Vh.T[:, :ndim]
 
-    # Transform the datas
+    # Project the data onto the principal components
     T = X_centered @ W
+
     return T
