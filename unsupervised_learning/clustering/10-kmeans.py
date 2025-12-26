@@ -1,17 +1,11 @@
 #!/usr/bin/env python3
 """K-means clustering module using scikit-learn"""
 import sklearn.cluster
-import numpy as np
-
 
 def kmeans(X, k):
     """
     Performs K-means on a dataset.
-    """
-    # Input validation
-    if not isinstance(X, np.ndarray) or len(X.shape) != 2:
-        return None, None
-    
+    """    
     n, d = X.shape
     
     if not isinstance(k, int) or k <= 0 or k > n:
