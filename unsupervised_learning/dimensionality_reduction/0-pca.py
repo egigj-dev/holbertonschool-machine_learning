@@ -6,6 +6,18 @@ import numpy as np
 def pca(X, var=0.95):
     """
     Performs PCA on a dataset.
+    
+    Args:
+        X: numpy.ndarray of shape (n, d) where:
+            - n is the number of data points
+            - d is the number of dimensions in each point
+            - all dimensions have a mean of 0 across all data points
+        var: the fraction of the variance that the PCA transformation should maintain
+    
+    Returns:
+        W: numpy.ndarray of shape (d, nd) containing the weights matrix that maintains
+           var fraction of X's original variance
+           - nd is the new dimensionality of the transformed X
     """
     # Input validation
     if not isinstance(X, np.ndarray) or len(X.shape) != 2:
@@ -17,9 +29,11 @@ def pca(X, var=0.95):
     n, d = X.shape
     
     # Compute the covariance matrix
+    # Covariance: C = (1/n) * X^T * X (since X is already centered)
     C = np.dot(X.T, X) / n
     
     # Compute eigenvalues and eigenvectors
+    # eigenvalues are in ascending order
     eigenvalues, eigenvectors = np.linalg.eig(C)
     
     # Sort by eigenvalues in descending order
@@ -28,11 +42,20 @@ def pca(X, var=0.95):
     eigenvectors = eigenvectors[:, idx]
     
     # Calculate cumulative explained variance
+    # Total variance is the sum of all eigenvalues
     total_variance = np.sum(eigenvalues)
     cumsum_variance = np.cumsum(eigenvalues) / total_variance
     
     # Find the number of components needed to maintain var fraction
-    nd = np.argmax(cumsum_variance >= var) + 1
+    # Find the first index where cumulative variance >= var
+    mask = cumsum_variance >= var
+    nd = np.where(mask)[0]
+    
+    if len(nd) > 0:
+        nd = nd[0] + 1
+    else:
+        # If no components meet the threshold, use all
+        nd = len(eigenvalues)
     
     # Select the first nd eigenvectors (principal components)
     W = eigenvectors[:, :nd]
