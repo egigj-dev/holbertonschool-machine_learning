@@ -40,4 +40,13 @@ def pca(X, var=0.95):
     # Ensure W is real-valued (in case of numerical errors with complex types)
     W = np.real(W)
     
+    # Enforce sign convention: make the largest absolute value in each column positive
+    for i in range(W.shape[1]):
+        if np.abs(W[:, i]).argmax() > 0:
+            # Find the element with largest absolute value
+            max_idx = np.abs(W[:, i]).argmax()
+            # If that element is negative, flip the entire column
+            if W[max_idx, i] < 0:
+                W[:, i] *= -1
+    
     return W
