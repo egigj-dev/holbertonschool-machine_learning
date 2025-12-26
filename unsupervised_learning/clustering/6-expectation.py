@@ -46,10 +46,10 @@ def expectation(X, pi, m, S):
     if np.any(denominator == 0):
         return None, None
 
-    # Calculate posterior probabilities: g[k, n] = numerator[k, n] / denominator[n]
+    # Calculate posterior probabilities
     g = numerator / denominator
 
     # Calculate log likelihood: sum(log(denominator))
-    l = np.sum(np.log(denominator))
+    log_likelihood = np.sum(np.log(denominator))
 
-    return g, l
+    return g, log_likelihood
