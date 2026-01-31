@@ -31,15 +31,13 @@ class Neuron:
 
     def forward_prop(self, X):
         Z = np.matmul(self.__W, X) + self.__b
-        self.__A = 1/ (1 + np.exp(-Z))
-
+        self.__A = 1 / (1 + np.exp(-Z))
         return self.__A
+
     
     def cost(self, Y, A):
         m = Y.shape[1]
-
-        log_loss = -1/m * np.sum(Y * np.log(A) + (1-Y)*(np.log(1.000001-A)))
-        
+        log_loss = -1 / m * np.sum(Y * np.log(A) + (1 - Y)*(np.log(1.000001 - A)))
         return log_loss
     
     def evaluate(self, X, Y):
