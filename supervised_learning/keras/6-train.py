@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Train neural network with early stopping."""
-import tensorflow.keras as keras
+import tensorflow.keras as K
 
 
 def train_model(network, data, labels, batch_size, epochs,
@@ -12,7 +12,7 @@ def train_model(network, data, labels, batch_size, epochs,
     callbacks = []
     if early_stopping and validation_data is not None:
         callbacks.append(
-            keras.callbacks.EarlyStopping(
+            K.callbacks.EarlyStopping(
                 monitor='val_loss',
                 patience=patience,
                 restore_best_weights=True

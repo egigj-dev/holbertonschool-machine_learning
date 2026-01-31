@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Save and load model config."""
-import tensorflow.keras as keras
+import tensorflow.keras as K
 
 
 def save_config(network, filename):
@@ -14,5 +14,5 @@ def load_config(filename):
     """ Load model from JSON config. """
     with open(filename, 'r') as f:
         config = f.read()
-    model = keras.models.model_from_json(config)
+    model = K.models.model_from_json(config)
     return model

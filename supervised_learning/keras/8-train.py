@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Train with model checkpoint saving."""
-import tensorflow.keras as keras
+import tensorflow.keras as K
 
 
 def train_model(network, data, labels, batch_size, epochs,
@@ -14,7 +14,7 @@ def train_model(network, data, labels, batch_size, epochs,
     callbacks = []
     if early_stopping and validation_data is not None:
         callbacks.append(
-            keras.callbacks.EarlyStopping(
+            K.callbacks.EarlyStopping(
                 monitor='val_loss',
                 patience=patience,
                 restore_best_weights=True
@@ -24,11 +24,11 @@ def train_model(network, data, labels, batch_size, epochs,
         def decay_lr(epoch):
             return alpha / (1 + decay_rate * epoch)
         callbacks.append(
-            keras.callbacks.LearningRateScheduler(decay_lr, verbose=1)
+            K.callbacks.LearningRateScheduler(decay_lr, verbose=1)
         )
     if save_best and filepath is not None:
         callbacks.append(
-            keras.callbacks.ModelCheckpoint(
+            K.callbacks.ModelCheckpoint(
                 filepath,
                 monitor='val_loss',
                 save_best_only=True
