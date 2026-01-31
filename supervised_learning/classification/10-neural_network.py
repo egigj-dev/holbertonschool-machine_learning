@@ -55,7 +55,7 @@ class NeuralNetwork:
     def A2(self):
         return self.__A2
 
-     # --- Forward propagation ---
+    # --- Forward propagation ---
     def forward_prop(self, X):
         """
         Calculates the forward propagation of the network.
