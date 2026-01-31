@@ -39,7 +39,7 @@ class Neuron:
         Z = np.matmul(self.__W, X) + self.__b
         self.__A = 1 / (1 + np.exp(-Z))
         return self.__A
-    
+
     def cost(self, Y, A):
         """
         Calculates the cost of loss function.
@@ -49,7 +49,7 @@ class Neuron:
             Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A)
         )
         return log_loss
-    
+
     def evaluate(self, X, Y):
         """
         Evaluates the loss function.

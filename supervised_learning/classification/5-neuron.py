@@ -39,7 +39,7 @@ class Neuron:
         Z = np.matmul(self.__W, X) + self.__b
         self.__A = 1 / (1 + np.exp(-Z))
         return self.__A
-    
+
     def cost(self, Y, A):
         """
         Calculates the cost of loss function.
@@ -49,7 +49,7 @@ class Neuron:
             Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A)
         )
         return log_loss
-    
+
     def evaluate(self, X, Y):
         """
         Evaluates the loss function.
@@ -57,3 +57,13 @@ class Neuron:
         self.__A = self.forward_prop(X)
         cost = self.cost(Y, self.__A)
         result = np.where(self.__A >= 0.5, 1, 0)
+
+    def gradient_descent(self, X, Y, A, alpha=0.05):
+        """
+        Calculates gradient descent.
+        """
+        m = Y.shape[1]
+        dW = np.matmul(X, (A - Y).T) / m
+        db = np.sum(A - Y) / m
+        self.__W -= alpha * dW.T
+        self.__b -= alpha * db
