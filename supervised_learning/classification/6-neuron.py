@@ -70,42 +70,22 @@ class Neuron:
         self.__W -= alpha * dW.T
         self.__b -= alpha * db
 
-    def train(self, X, Y, iterations=5000, alpha=0.05,
-              verbose=True, graph=True, step=100):
-
-        if type(iterations) is not int:
+    def train(self, X, Y, iterations=5000, alpha=0.05):
+        """
+        Trains the neuron.
+        """
+        if not isinstance(iterations, int):
             raise TypeError("iterations must be an integer")
         if iterations <= 0:
             raise ValueError("iterations must be a positive integer")
 
-        if type(alpha) is not float:
+        if not isinstance(alpha, float):
             raise TypeError("alpha must be a float")
         if alpha <= 0:
             raise ValueError("alpha must be positive")
 
-        if verbose or graph:
-            if type(step) is not int:
-                raise TypeError("step must be an integer")
-            if step <= 0 or step > iterations:
-                raise ValueError("step must be positive and <= iterations")
-
-        costs = []
-        steps = []
-
-        for i in range(iterations + 1):
+        for _ in range(iterations):
             A = self.forward_prop(X)
-
-            if i % step == 0 or i == iterations:
-                cost = self.cost(Y, A)
-
-                if verbose:
-                    print(f"Cost after {i} iterations: {cost}")
-
-                if graph:
-                    costs.append(cost)
-                    steps.append(i)
-
-            if i < iterations:
-                self.gradient_descent(X, Y, A, alpha)
+            self.gradient_descent(X, Y, A, alpha)
 
         return self.evaluate(X, Y)
