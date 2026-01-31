@@ -45,5 +45,7 @@ class Neuron:
         Calculates the cost of loss function.
         """
         m = Y.shape[1]
-        log_loss = -1 / m * np.sum(Y * np.log(A) + (1 - Y)*(np.log(1.000001 - A)))
+        log_loss = -1 / m * np.sum(
+            Y * np.log(A) + (1 - Y) * np.log(1.0000001 - A)
+        )
         return log_loss
