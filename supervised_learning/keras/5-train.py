@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Train neural network model with validation."""
+import tensorflow.keras as K
 
 
 def train_model(network, data, labels, batch_size, epochs,
