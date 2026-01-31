@@ -9,8 +9,6 @@ class NeuralNetwork:
     def __init__(self, nx, nodes):
         """
         Class constructor
-        nx: number of input features
-        nodes: number of nodes in the hidden layer
         """
         # --- Input validation ---
         if not isinstance(nx, int):
