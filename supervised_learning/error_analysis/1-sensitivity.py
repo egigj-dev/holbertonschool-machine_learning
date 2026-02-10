@@ -8,8 +8,8 @@ def sensitivity(confusion_matrix):
     Sensitivity = TP/(TP+FN)
     """
     cm = confusion_matrix.astype(float)
-    
-    #Sensitivity = TP/(TP+FN)
+
+    # Sensitivity = TP/(TP+FN)
     true_positives = np.diag(cm)
     false_negatives = cm.sum(axis=1) - true_positives
 
