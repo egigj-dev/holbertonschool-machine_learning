@@ -9,19 +9,19 @@ def specificity(confusion):
     """
     # True positives for each class (diagonal)
     true_positives = np.diag(confusion)
-    
+
     # False positives: sum of column minus TP
     false_positives = np.sum(confusion, axis=0) - true_positives
-    
+
     # False negatives: sum of row minus TP
     false_negatives = np.sum(confusion, axis=1) - true_positives
-    
+
     # Total samples
     total = np.sum(confusion)
-    
+
     # True negatives = everything else
     true_negatives = total - true_positives - false_positives - false_negatives
-    
+
     # Specificity = TN / (TN + FP)
     specificity_scores = np.divide(
         true_negatives,
@@ -29,5 +29,5 @@ def specificity(confusion):
         out=np.zeros_like(true_negatives, dtype=float),
         where=(true_negatives + false_positives) != 0
     )
-    
+
     return specificity_scores

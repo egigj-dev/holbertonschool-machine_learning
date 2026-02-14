@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
+"""Script that calculates the precision for each class"""
 import numpy as np
-"""Script that calculates the precision"""
 
 
 def precision(confusion):
-    """Precision = TP/(TP+FP)"""
+    """
+    Calculates the precision for each class in a confusion matrix
+    """
+    # True positives for each class (diagonal)
+    true_positives = np.diag(confusion)
 
-    true_positives = np.diag(confusion)                 # TP
-    predicted_positives = np.sum(confusion, axis=0)    # TP+FP
+    # Predicted positives = TP + FP (sum of column)
+    predicted_positives = np.sum(confusion, axis=0)
 
-    # TP/(TP+FP)
+    # Precision = TP / (TP + FP)
     precision_scores = np.divide(
         true_positives,
         predicted_positives,
