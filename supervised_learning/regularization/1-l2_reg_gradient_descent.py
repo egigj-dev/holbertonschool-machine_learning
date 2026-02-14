@@ -38,3 +38,8 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
         # Update weights and biases
         weights['W' + str(layer)] -= alpha * dW
         weights['b' + str(layer)] -= alpha * db
+
+        # Backpropagate to previous layer
+        if layer > 1:
+            # Derivative of tanh: 1 - tanh^2
+            dZ = np.matmul(weights['W' + str(layer)].T, dZ) * (1 - np.power(cache['A' + str(layer - 1)], 2))
