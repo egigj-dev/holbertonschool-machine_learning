@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 """Script that calculates F1 score"""
+
 import numpy as np
 
-# Import previously defined functions
-sensitivity = __import__('1-sensitivity').sensitivity 
+sensitivity = __import__('1-sensitivity').sensitivity
 precision = __import__('2-precision').precision
+
 
 def f1_score(confusion):
     """
