@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 import tensorflow as tf
+""" Script that creates a batch normalization layer using TF """
 
 def create_batch_norm_layer(prev, n, activation):
     """
     Creates a batch normalization layer for a neural network.
-
     Args:
         prev: activated output of the previous layer
         n: number of nodes in the layer to be created
         activation: activation function to apply
-
     Returns:
         Tensor of the activated output for the layer
     """
