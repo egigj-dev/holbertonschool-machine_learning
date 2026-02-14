@@ -1,26 +1,33 @@
 #!/usr/bin/env python3
 import numpy as np
-"""Updates weights and biases of a neural network using L2 regularization"""
+"""Updates weights and biases using gradient descent with L2 regularization"""
 
 
 def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
     """
-    Updates the weights and biases of a neural network using gradient descent
-    with L2 regularization.
+    Updates weights and biases of a neural network using gradient descent with L2 regularization.
 
     Parameters:
-    Y (numpy.ndarray): shape (classes, m), one-hot true labels
-    weights (dict): dictionary of weights and biases
-    cache (dict): dictionary of activations per layer
-    alpha (float): learning rate
-    lambtha (float): L2 regularization parameter
-    L (int): number of layers in the network
+    -----------
+    Y : numpy.ndarray of shape (classes, m)
+        One-hot correct labels
+    weights : dict
+        Dictionary of current weights and biases
+    cache : dict
+        Dictionary of layer activations
+    alpha : float
+        Learning rate
+    lambtha : float
+        L2 regularization parameter
+    L : int
+        Number of layers in the network
     """
     m = Y.shape[1]
-    # Gradient at the output layer (softmax)
+
+    # Gradient of the loss w.r.t output (softmax)
     dZ = cache['A' + str(L)] - Y
 
-    # Loop backward through all layers
+    # Backpropagation through layers
     for l in reversed(range(1, L + 1)):
         A_prev = cache['A' + str(l - 1)]
         W = weights['W' + str(l)]
@@ -33,7 +40,7 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
         weights['W' + str(l)] -= alpha * dW
         weights['b' + str(l)] -= alpha * db
 
-        # Compute dZ for the next layer (if not input layer)
+        # Prepare dZ for the previous layer
         if l > 1:
-            A_prev_raw = A_prev  # tanh activation
+            A_prev_raw = cache['A' + str(l - 1)]
             dZ = np.dot(W.T, dZ) * (1 - A_prev_raw ** 2)  # derivative of tanh
