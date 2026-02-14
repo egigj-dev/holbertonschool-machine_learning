@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Script that calculates TP/(TP+FN)"""
 import numpy as np
+"""Script that calculates TP/(TP+FN)"""
+
 
 
 def sensitivity(confusion_matrix):
