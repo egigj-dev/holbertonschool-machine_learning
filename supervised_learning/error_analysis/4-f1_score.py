@@ -3,8 +3,8 @@
 import numpy as np
 
 # Import previously defined functions
-from one_sensitivity import sensitivity
-from two_precision import precision
+sensitivity = __import__('1-sensitivity').sensitivity 
+precision = __import__('2-precision').precision
 
 def f1_score(confusion):
     """

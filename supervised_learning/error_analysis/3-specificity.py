@@ -4,23 +4,30 @@ import numpy as np
 
 
 def specificity(confusion):
-	"""Specificity = TN/(TN+FP)"""
-
-	# TN = total - TP - FP - FN
-	true_positives = np.diag(confusion)
-	false_positives = np.sum(confusion, axis=0) - true_positives
+    """
+    Calculates the specificity for each class in a confusion matrix
+    """
+    # True positives for each class (diagonal)
+    true_positives = np.diag(confusion)
+    
+    # False positives: sum of column minus TP
+    false_positives = np.sum(confusion, axis=0) - true_positives
+    
+    # False negatives: sum of row minus TP
     false_negatives = np.sum(confusion, axis=1) - true_positives
+    
+    # Total samples
     total = np.sum(confusion)
-
+    
+    # True negatives = everything else
     true_negatives = total - true_positives - false_positives - false_negatives
-
-
-	# TN/(TN+FP)
-	specificity_scores = np.divide(
+    
+    # Specificity = TN / (TN + FP)
+    specificity_scores = np.divide(
         true_negatives,
         true_negatives + false_positives,
         out=np.zeros_like(true_negatives, dtype=float),
         where=(true_negatives + false_positives) != 0
     )
-
+    
     return specificity_scores

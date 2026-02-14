@@ -5,7 +5,7 @@ import numpy as np
 
 def precision(confusion):
     """Precision = TP/(TP+FP)"""
-    
+
     true_positives = np.diag(confusion)                 # TP
     predicted_positives = np.sum(confusion, axis=0)    # TP+FP
 
