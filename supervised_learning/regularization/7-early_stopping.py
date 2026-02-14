@@ -1,26 +1,18 @@
 #!/usr/bin/env python3
-""" Determines whether training should stop early based on validation cost """
+"""
+Early Stopping Module
+"""
 
 
 def early_stopping(cost, opt_cost, threshold, patience, count):
     """
-    Early stopping occurs if the validation cost has not decreased
-    relative to the optimal cost by more than `threshold` for `patience` steps
-
-    Parameters:
-    cost: Current validation cost
-    opt_cost: Lowest recorded validation cost
-    threshold: Minimum improvement required to reset count
-    patience: Number of consecutive steps to wait before stopping
-    count: Current count of steps without sufficient improvement
+    Determines if gradient descent should be stopped early.
     """
-
-    # Check if cost improved sufficiently
     if opt_cost - cost > threshold:
+        # Improvement detected, reset count
         count = 0
     else:
         count += 1
 
-    stop = count >= patience
-
-    return stop, count
+    should_stop = count >= patience
+    return should_stop, count

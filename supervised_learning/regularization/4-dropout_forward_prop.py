@@ -1,47 +1,40 @@
 #!/usr/bin/env python3
+"""
+Dropout Gradient Descent
+"""
 import numpy as np
-""" Script that conducts forward propagation using Dropout """
-
-def softmax(Z):
-    """Compute softmax activation for the output layer."""
-    eZ = np.exp(Z - np.max(Z, axis=0, keepdims=True))
-    return eZ / np.sum(eZ, axis=0, keepdims=True)
 
 
-def dropout_forward_prop(X, weights, L, keep_prob):
+def dropout_gradient_descent(Y, weights, cache, alpha, keep_prob, L):
     """
-    Conducts forward propagation using Dropout
-
-    Parameters:
-    X: shape (nx, m) input data
-    weights: Dictionary of weights and biases
-    L: Number of layers
-    keep_prob: Probability of keeping a node
+    Updates the weights of a neural network with Dropout regularization
+    using gradient descent
     """
-    cache = {}
-    cache['A0'] = X
+    m = Y.shape[1]
+    dZ = cache['A' + str(L)] - Y
 
-    for l in range(1, L + 1):
-        W = weights['W' + str(l)]
-        b = weights['b' + str(l)]
+    # Backpropagate through all layers
+    for layer in range(L, 0, -1):
+        A_prev = cache['A' + str(layer - 1)]
 
-        A_prev = cache['A' + str(l - 1)]
-        Z = np.dot(W, A_prev) + b
+        dW = (1 / m) * np.matmul(dZ, A_prev.T)
+        db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
 
-        # Apply activation
-        if l == L:
-            A = softmax(Z)
-        else:
-            A = np.tanh(Z)
+        if layer > 1:
+            W = weights['W' + str(layer)]
 
-            # Apply dropout
-            D = (np.random.rand(*A.shape) < keep_prob).astype(float)
-            A *= D
-            A /= keep_prob  # scale to maintain expected value
+            dA = np.matmul(W.T, dZ)
 
-            # Store dropout mask
-            cache['D' + str(l)] = D
+            # Apply dropout mask to dA
+            D = cache['D' + str(layer - 1)]
+            dA = dA * D
 
-        cache['A' + str(l)] = A
+            # Scale by keep_prob to maintain expected value
+            dA = dA / keep_prob
 
-    return cache
+            # Apply derivative of tanh: (1 - A^2)
+            dZ = dA * (1 - np.power(A_prev, 2))
+
+        # Update weights and biases
+        weights['W' + str(layer)] -= alpha * dW
+        weights['b' + str(layer)] -= alpha * db
