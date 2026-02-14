@@ -3,9 +3,6 @@ import numpy as np
 """ Calculates the cost of a neural network using L2 """
 
 
-import numpy as np
-
-
 def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
     """
     Updates weights and biases of a neural network using gradient descent
