@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""Neural network with one hidden layer performing binary classification"""
 import numpy as np
+"""Neural network with one hidden layer performing binary classification"""
 
 
 class NeuralNetwork:
