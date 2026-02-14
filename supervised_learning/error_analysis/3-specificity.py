@@ -6,13 +6,10 @@ import numpy as np
 def specificity(confusion):
     """
     Calculates the specificity for each class in a confusion matrix
-
     Specificity = TN / (TN + FP)
-    
     Args:
         confusion (numpy.ndarray): Confusion matrix of shape (classes, classes)
                                    Rows = true classes, Columns = predicted classes
-
     Returns:
         numpy.ndarray: Specificity for each class, shape (classes,)
     """
