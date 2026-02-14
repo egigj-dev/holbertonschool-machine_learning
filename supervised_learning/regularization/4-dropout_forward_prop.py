@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import numpy as np
-from scipy.special import softmax  	# possible
 """ Script that conducts forward propagation using Dropout """
 
 def softmax(Z):

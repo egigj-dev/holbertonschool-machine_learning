@@ -25,23 +25,23 @@ def l2_reg_gradient_descent(Y, weights, cache, alpha, lambtha, L):
     """
     m = Y.shape[1]
     
-    # Start with gradient at output layer (softmax)
+    # Start backpropagation from output layer
+    # Gradient of softmax + cross-entropy loss
     dZ = cache['A' + str(L)] - Y
     
-    # Backpropagation through all layers
-    for l in reversed(range(1, L + 1)):
-        A_prev = cache['A' + str(l - 1)]
-        W = weights['W' + str(l)]
+    # Backpropagate through all layers
+    for layer in range(L, 0, -1):
+        A_prev = cache['A' + str(layer - 1)]
         
-        # Compute gradients with L2 regularization
-        dW = (1 / m) * np.matmul(dZ, A_prev.T) + (lambtha / m) * W
+        # Compute gradients with L2 regularization term
+        dW = (1 / m) * np.matmul(dZ, A_prev.T) + (lambtha / m) * weights['W' + str(layer)]
         db = (1 / m) * np.sum(dZ, axis=1, keepdims=True)
         
         # Update weights and biases in place
-        weights['W' + str(l)] -= alpha * dW
-        weights['b' + str(l)] -= alpha * db
+        weights['W' + str(layer)] -= alpha * dW
+        weights['b' + str(layer)] -= alpha * db
         
-        # Compute dZ for previous layer (if not at input layer)
-        if l > 1:
-            # Derivative of tanh: 1 - tanh^2(x)
-            dZ = np.matmul(W.T, dZ) * (1 - cache['A' + str(l - 1)] ** 2)
+        # Compute dZ for previous layer (don't compute for layer 0)
+        if layer > 1:
+            # Derivative of tanh: 1 - tanh(x)^2
+            dZ = np.matmul(weights['W' + str(layer)].T, dZ) * (1 - np.power(cache['A' + str(layer - 1)], 2))
