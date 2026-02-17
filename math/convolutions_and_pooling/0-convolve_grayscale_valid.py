@@ -21,7 +21,7 @@ def convolve_grayscale_valid(images, kernel):
         for j in range(ow):
             # Extract the region from all images at once using slicing
             region = images[:, i:i+kh, j:j+kw]  # shape: (m, kh, kw)
- 
+
             # Element-wise multiply with kernel and sum
             output[:, i, j] = np.sum(region * kernel, axis=(1, 2))
 
