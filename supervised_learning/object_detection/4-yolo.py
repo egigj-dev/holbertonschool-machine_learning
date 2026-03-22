@@ -53,10 +53,11 @@ class Yolo:
         for filename in os.listdir(folder_path):
             filepath = os.path.join(folder_path, filename)
             # Check if it is a file and has an image extension
-            if os.path.isfile(filepath) and filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff')):
-                img = cv2.imread(filepath)
-                if img is not None:
-                    images.append(img)
-                    image_paths.append(filepath)
+            if os.path.isfile(filepath): 
+                if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff')):
+                    img = cv2.imread(filepath)
+                    if img is not None:
+                        images.append(img)
+                        image_paths.append(filepath)
 
         return images, image_paths

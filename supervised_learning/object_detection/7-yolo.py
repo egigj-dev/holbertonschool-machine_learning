@@ -21,16 +21,16 @@ class Yolo:
 
     def process_outputs(self, outputs, image_size):
         """
-            Process Darknet model outputs for a single image
-            Parameters:
-            - outputs: list of numpy.ndarrays, predictions from the Darknet model
-            - image_size: np.ndarray, original image size [height, width]
+        Process Darknet model outputs for a single image
+        Parameters:
+        - outputs: list of numpy.ndarrays, predictions from the Darknet model
+        - image_size: np.ndarray, original image size [height, width]
 
-            Returns:
-            - boxes: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, 4) containing
-                    (x1, y1, x2, y2) relative to original image
-            - box_confidences: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, 1)
-            - box_class_probs: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, classes)
+        Returns:
+        - boxes: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, 4) containing
+                (x1, y1, x2, y2) relative to original image
+        - box_confidences: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, 1)
+        - box_class_probs: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, classes)
         """
         boxes = []
         box_confidences = []
@@ -89,9 +89,9 @@ class Yolo:
 
         for box, conf, class_prob in zip(boxes, box_confidences, box_class_probs):
             # Compute box scores
-            scores = conf * class_prob  # shape: (grid_h, grid_w, anchor_boxes, classes)
-            class_indices = np.argmax(scores, axis=-1)  # best class per box
-            class_scores = np.max(scores, axis=-1)  # best score per box
+            scores = conf * class_prob
+            class_indices = np.argmax(scores, axis=-1)
+            class_scores = np.max(scores, axis=-1)
 
             # Mask boxes with score above threshold
             mask = class_scores >= self.class_t
@@ -163,7 +163,7 @@ class Yolo:
                 iou = intersection / union
 
                 # Keep boxes with IOU <= nms_t
-                keep_idxs = np.where(iou <= self.nms_t)[0] + 1  # +1 because iou excludes first box
+                keep_idxs = np.where(iou <= self.nms_t)[0] + 1
                 cls_boxes = cls_boxes[keep_idxs]
                 cls_scores = cls_scores[keep_idxs]
 
@@ -190,43 +190,31 @@ class Yolo:
         for filename in os.listdir(folder_path):
             filepath = os.path.join(folder_path, filename)
             # Check if it is a file and has an image extension
-            if os.path.isfile(filepath) and filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff')):
-                img = cv2.imread(filepath)
-                if img is not None:
-                    images.append(img)
-                    image_paths.append(filepath)
+            if os.path.isfile(filepath): 
+                if filename.lower().endswith(('.png', '.jpg', '.jpeg', '.bmp', '.tiff')):
+                    img = cv2.imread(filepath)
+                    if img is not None:
+                        images.append(img)
+                        image_paths.append(filepath)
 
         return images, image_paths
 
     def preprocess_images(self, images):
-        """
-        Preprocess images for Darknet model
-
-        Parameters:
-        - images: list of images as np.ndarrays
-
-        Returns:
-        - pimages: np.ndarray of shape (ni, input_h, input_w, 3)
-        - image_shapes: np.ndarray of shape (ni, 2) with original (height, width)
-        """
-        input_h = self.model.input.shape[1]
-        input_w = self.model.input.shape[2]
+        input_w = self.model.input.shape[1]
+        input_h = self.model.input.shape[2] 
 
         pimages = []
         image_shapes = []
 
         for img in images:
-            original_shape = img.shape[:2]  # (height, width)
+            original_shape = img.shape[:2]
             image_shapes.append(original_shape)
-
-            # Resize image using cubic interpolation
             resized_img = cv2.resize(img, (input_w, input_h), interpolation=cv2.INTER_CUBIC)
-            # Scale pixel values to [0, 1]
             normalized_img = resized_img / 255.0
             pimages.append(normalized_img)
 
         pimages = np.array(pimages, dtype=np.float32)
-        image_shapes = np.array(image_shapes, dtype=np.int)
+        image_shapes = np.array(image_shapes, dtype=int)  # fixed
 
         return pimages, image_shapes
 

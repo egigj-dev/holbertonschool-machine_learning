@@ -22,22 +22,22 @@ class Yolo:
 
     def process_outputs(self, outputs, image_size):
         """
-            Process Darknet model outputs for a single image
-            Parameters:
-            - outputs: list of numpy.ndarrays, predictions from the Darknet model
-            - image_size: np.ndarray, original image size [height, width]
+        Process Darknet model outputs for a single image
+        Parameters:
+        - outputs: list of numpy.ndarrays, predictions from the Darknet model
+        - image_size: np.ndarray, original image size [height, width]
 
-            Returns:
-            - boxes: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, 4) containing
-                    (x1, y1, x2, y2) relative to original image
-            - box_confidences: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, 1)
-            - box_class_probs: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, classes)
+        Returns:
+        - boxes: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, 4) containing
+                (x1, y1, x2, y2) relative to original image
+        - box_confidences: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, 1)
+        - box_class_probs: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, classes)
         """
         boxes = []
         box_confidences = []
         box_class_probs = []
         image_height, image_width = image_size
-        
+
         input_w = self.model.input.shape[1]
         input_h = self.model.input.shape[2]
 
@@ -90,9 +90,9 @@ class Yolo:
 
         for box, conf, class_prob in zip(boxes, box_confidences, box_class_probs):
             # Compute box scores
-            scores = conf * class_prob  # shape: (grid_h, grid_w, anchor_boxes, classes)
-            class_indices = np.argmax(scores, axis=-1)  # best class per box
-            class_scores = np.max(scores, axis=-1)  # best score per box
+            scores = conf * class_prob
+            class_indices = np.argmax(scores, axis=-1)
+            class_scores = np.max(scores, axis=-1)
 
             # Mask boxes with score above threshold
             mask = class_scores >= self.class_t
