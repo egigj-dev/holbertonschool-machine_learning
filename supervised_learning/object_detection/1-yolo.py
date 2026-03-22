@@ -38,17 +38,19 @@ class Yolo:
         box_class_probs = []
 
         image_height, image_width = image_size
+        input_h = self.model.input.shape[1]
+        input_w = self.model.input.shape[2]
 
         for i, output in enumerate(outputs):
             grid_h, grid_w, anchor_boxes, _ = output.shape
 
-            # Split predictions
-            t_xy = output[..., 0:2]  # t_x, t_y
-            t_wh = output[..., 2:4]  # t_w, t_h
-            box_conf = output[..., 4:5]  # objectness score
-            class_probs = output[..., 5:]  # class probabilities
+            # Extract t_x, t_y, t_w, t_h, box_confidence, class_probs
+            t_xy = output[..., 0:2]
+            t_wh = output[..., 2:4]
+            box_conf = output[..., 4:5]
+            class_probs = output[..., 5:]
 
-            # Sigmoid for t_xy and objectness
+            # Sigmoid for xy and box confidence
             sigmoid_xy = 1 / (1 + np.exp(-t_xy))
             box_confidence = 1 / (1 + np.exp(-box_conf))
             class_prob = 1 / (1 + np.exp(-class_probs))
@@ -60,26 +62,26 @@ class Yolo:
             cx = np.expand_dims(cx, axis=-1)
             cy = np.expand_dims(cy, axis=-1)
 
-            # Compute bx, by (center coordinates)
+            # bx, by: center coordinates relative to image (0-1)
             bx = (sigmoid_xy[..., 0] + cx) / grid_w
             by = (sigmoid_xy[..., 1] + cy) / grid_h
 
-            # Compute bw, bh (width, height)
+            # bw, bh: width and height relative to image
             anchor_w = self.anchors[i, :, 0]
             anchor_h = self.anchors[i, :, 1]
-            bw = (anchor_w * np.exp(t_wh[..., 0])) / self.model.input.shape[2]
-            bh = (anchor_h * np.exp(t_wh[..., 1])) / self.model.input.shape[1]
+            bw = (anchor_w * np.exp(t_wh[..., 0])) / input_w
+            bh = (anchor_h * np.exp(t_wh[..., 1])) / input_h
 
-            # Convert to x1, y1, x2, y2 relative to original image size
+            # Convert to corner coordinates in original image scale
             x1 = (bx - bw / 2) * image_width
             y1 = (by - bh / 2) * image_height
             x2 = (bx + bw / 2) * image_width
             y2 = (by + bh / 2) * image_height
 
             box = np.stack([x1, y1, x2, y2], axis=-1)
-
             boxes.append(box)
             box_confidences.append(box_confidence)
             box_class_probs.append(class_prob)
 
         return boxes, box_confidences, box_class_probs
+
