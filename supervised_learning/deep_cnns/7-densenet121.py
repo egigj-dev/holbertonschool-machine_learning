@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""DenseNet-121 model"""
+"""DenseNet-121 model with explicit ReLU layers"""
 from tensorflow import keras as K
 
 dense_block = __import__('5-dense_block').dense_block
@@ -14,7 +14,7 @@ def densenet121(growth_rate=32, compression=1.0):
         compression: compression factor
 
     Returns:
-        keras model
+        keras.Model
     """
     initializer = K.initializers.he_normal(seed=0)
 
@@ -23,7 +23,7 @@ def densenet121(growth_rate=32, compression=1.0):
 
     # Initial convolution
     X = K.layers.BatchNormalization(axis=-1)(X_input)
-    X = K.layers.Activation('relu')(X)
+    X = K.layers.ReLU()(X)  # Explicit ReLU
     X = K.layers.Conv2D(
         filters=2 * growth_rate,
         kernel_size=(7, 7),
@@ -41,37 +41,23 @@ def densenet121(growth_rate=32, compression=1.0):
     nb_filters = 2 * growth_rate
 
     # Dense Block 1
-    X, nb_filters = dense_block(
-        X, nb_filters, growth_rate, layers=6
-    )
-    X, nb_filters = transition_layer(
-        X, nb_filters, compression
-    )
+    X, nb_filters = dense_block(X, nb_filters, growth_rate, layers=6)
+    X, nb_filters = transition_layer(X, nb_filters, compression)
 
     # Dense Block 2
-    X, nb_filters = dense_block(
-        X, nb_filters, growth_rate, layers=12
-    )
-    X, nb_filters = transition_layer(
-        X, nb_filters, compression
-    )
+    X, nb_filters = dense_block(X, nb_filters, growth_rate, layers=12)
+    X, nb_filters = transition_layer(X, nb_filters, compression)
 
     # Dense Block 3
-    X, nb_filters = dense_block(
-        X, nb_filters, growth_rate, layers=24
-    )
-    X, nb_filters = transition_layer(
-        X, nb_filters, compression
-    )
+    X, nb_filters = dense_block(X, nb_filters, growth_rate, layers=24)
+    X, nb_filters = transition_layer(X, nb_filters, compression)
 
     # Dense Block 4
-    X, nb_filters = dense_block(
-        X, nb_filters, growth_rate, layers=16
-    )
+    X, nb_filters = dense_block(X, nb_filters, growth_rate, layers=16)
 
     # Final BN + ReLU
     X = K.layers.BatchNormalization(axis=-1)(X)
-    X = K.layers.Activation('relu')(X)
+    X = K.layers.ReLU()(X)  
 
     # Global average pooling
     X = K.layers.GlobalAveragePooling2D()(X)
@@ -85,5 +71,4 @@ def densenet121(growth_rate=32, compression=1.0):
 
     # Create model
     model = K.models.Model(inputs=X_input, outputs=X)
-
     return model

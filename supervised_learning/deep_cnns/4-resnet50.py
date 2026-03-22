@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ResNet-50 model"""
+"""ResNet-50 model with explicit ReLU layers"""
 from tensorflow import keras as K
 
 identity_block = __import__('2-identity_block').identity_block
@@ -7,10 +7,10 @@ projection_block = __import__('3-projection_block').projection_block
 
 
 def resnet50():
-    """Builds the ResNet-50 architecture
+    """Builds the ResNet-50 architecture with explicit ReLU layers
 
     Returns:
-        keras model
+        keras.Model
     """
     initializer = K.initializers.he_normal(seed=0)
 
@@ -26,7 +26,7 @@ def resnet50():
         kernel_initializer=initializer
     )(X_input)
     X = K.layers.BatchNormalization(axis=-1)(X)
-    X = K.layers.Activation('relu')(X)
+    X = K.layers.ReLU()(X)  # Explicit ReLU
     X = K.layers.MaxPooling2D(
         pool_size=(3, 3),
         strides=(2, 2),
@@ -60,7 +60,7 @@ def resnet50():
     # Average pooling
     X = K.layers.AveragePooling2D(pool_size=(7, 7))(X)
 
-    # Output layer (1000 classes for ImageNet)
+    # Fully connected output layer
     X = K.layers.Dense(
         units=1000,
         activation='softmax',
@@ -69,5 +69,4 @@ def resnet50():
 
     # Create model
     model = K.models.Model(inputs=X_input, outputs=X)
-
     return model

@@ -22,13 +22,24 @@ class Yolo:
 
     def process_outputs(self, outputs, image_size):
         """
-        Process Darknet model outputs for a single image
+            Process Darknet model outputs for a single image
+            Parameters:
+            - outputs: list of numpy.ndarrays, predictions from the Darknet model
+            - image_size: np.ndarray, original image size [height, width]
+
+            Returns:
+            - boxes: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, 4) containing
+                    (x1, y1, x2, y2) relative to original image
+            - box_confidences: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, 1)
+            - box_class_probs: list of np.ndarrays of shape (grid_h, grid_w, anchor_boxes, classes)
         """
         boxes = []
         box_confidences = []
         box_class_probs = []
-
         image_height, image_width = image_size
+        
+        input_w = self.model.input.shape[1]
+        input_h = self.model.input.shape[2]
 
         for i, output in enumerate(outputs):
             grid_h, grid_w, anchor_boxes, _ = output.shape
@@ -53,8 +64,8 @@ class Yolo:
 
             anchor_w = self.anchors[i, :, 0]
             anchor_h = self.anchors[i, :, 1]
-            bw = (anchor_w * np.exp(t_wh[..., 0])) / self.model.input.shape[2]
-            bh = (anchor_h * np.exp(t_wh[..., 1])) / self.model.input.shape[1]
+            bw = (anchor_w * np.exp(t_wh[..., 0])) / input_w
+            bh = (anchor_h * np.exp(t_wh[..., 1])) / input_h
 
             x1 = (bx - bw / 2) * image_width
             y1 = (by - bh / 2) * image_height
@@ -62,7 +73,6 @@ class Yolo:
             y2 = (by + bh / 2) * image_height
 
             box = np.stack([x1, y1, x2, y2], axis=-1)
-
             boxes.append(box)
             box_confidences.append(box_confidence)
             box_class_probs.append(class_prob)
