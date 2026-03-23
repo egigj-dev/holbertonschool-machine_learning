@@ -213,8 +213,8 @@ class Yolo:
             normalized_img = resized_img / 255.0
             pimages.append(normalized_img)
 
-        pimages = np.array(pimages, dtype=np.float32)
-        image_shapes = np.array(image_shapes, dtype=int)  # fixed
+        pimages = np.array(pimages, dtype=np.float64)
+        image_shapes = np.array(image_shapes, dtype=int)
 
         return pimages, image_shapes
 
