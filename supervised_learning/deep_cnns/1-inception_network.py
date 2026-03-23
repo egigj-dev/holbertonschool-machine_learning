@@ -41,9 +41,8 @@ def inception_network():
     I5a = inception_block(P4, [256, 160, 320, 32, 128, 128])
     I5b = inception_block(I5a, [384, 192, 384, 48, 128, 128])
 
-    AP = K.layers.AveragePooling2D((7, 7), strides=(1, 1), padding='valid')(I5b)
+    AP = K.layers.GlobalAveragePooling2D()(I5b)
     D = K.layers.Dropout(0.4)(AP)
-    F = K.layers.Flatten()(D)
-    output = K.layers.Dense(1000, activation='softmax')(F)
+    output = K.layers.Dense(1000, activation='softmax')(D)
 
     return K.Model(inputs=X, outputs=output)
