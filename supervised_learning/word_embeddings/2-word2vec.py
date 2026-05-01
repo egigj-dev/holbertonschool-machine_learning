@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from pyexpat import model
+
 import gensim
 
 
@@ -31,27 +33,15 @@ def word2vec_model(
     - trained Word2Vec model
     """
 
-    # simple tokenization
-    tokenized_sentences = [
-        sentence.lower().split() for sentence in sentences
-    ]
-
     model = gensim.models.Word2Vec(
-        sentences=tokenized_sentences,
+        sentences=sentences,      # pass as-is, no re-tokenization
         vector_size=vector_size,
         window=window,
         min_count=min_count,
-        sg=0 if cbow else 1,   # 0 = CBOW, 1 = Skip-gram
+        sg=0 if cbow else 1,
         negative=negative,
         seed=seed,
-        workers=workers
-    )
-
-    # train explicitly (gensim modern versions require this)
-    model.train(
-        tokenized_sentences,
-        total_examples=len(tokenized_sentences),
+        workers=workers,
         epochs=epochs
     )
-
     return model

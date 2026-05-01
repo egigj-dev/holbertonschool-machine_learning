@@ -19,7 +19,8 @@ def bag_of_words(sentences, vocab=None):
 
     # Simple tokenizer (lowercase + keep words only)
     def tokenize(text):
-        return re.findall(r"\b\w+\b", text.lower())
+        text = re.sub(r"'s\b", "", text.lower())
+        return re.findall(r"[a-z]+", text)
 
     # Tokenize all sentences
     tokenized_sentences = [tokenize(s) for s in sentences]
@@ -43,4 +44,4 @@ def bag_of_words(sentences, vocab=None):
             if word in word_to_index:
                 embeddings[i, word_to_index[word]] = count
 
-    return embeddings, vocab
+    return embeddings, np.array(vocab)

@@ -17,7 +17,7 @@ def fasttext_model(
         vector_size=vector_size,
         window=window,
         min_count=min_count,
-        sg=1 if cbow else 0,   
+        sg=0 if cbow else 1,   
         negative=negative,
         seed=seed,
         workers=workers,

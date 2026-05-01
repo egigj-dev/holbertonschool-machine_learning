@@ -49,7 +49,9 @@ def tf_idf(sentences, vocab=None):
         idf[word] = math.log((s + 1) / (df[word] + 1)) + 1
 
     # --- compute TF-IDF matrix ---
-    embeddings = np.zeros((s, f), dtype=float)
+    norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
+    norms[norms == 0] = 1
+    embeddings = embeddings / norms
 
     for i, sent in enumerate(tokenized_sentences):
         tf = Counter(sent)
