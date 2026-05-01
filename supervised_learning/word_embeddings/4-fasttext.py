@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from gensim.models import FastText
+import genism
 
 
 def fasttext_model(
@@ -37,7 +37,7 @@ def fasttext_model(
     ]
 
     # build FastText model
-    model = FastText(
+    model = gensim.models.FastText(
         vector_size=vector_size,
         window=window,
         min_count=min_count,
