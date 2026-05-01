@@ -13,16 +13,10 @@ def fasttext_model(
     seed=0,
     workers=1
 ):
-    """
-    Creates, builds, and trains a FastText model using gensim.
-    """
 
-    # tokenization (gensim expects list of token lists)
-    tokenized_sentences = [
-        sentence.lower().split() for sentence in sentences
-    ]
+    # sentences are already tokenized → DO NOT split or lowercase
+    tokenized_sentences = sentences
 
-    # build FastText model
     model = gensim.models.FastText(
         vector_size=vector_size,
         window=window,
@@ -33,10 +27,8 @@ def fasttext_model(
         workers=workers
     )
 
-    # build vocabulary
     model.build_vocab(tokenized_sentences)
 
-    # train model
     model.train(
         tokenized_sentences,
         total_examples=model.corpus_count,
