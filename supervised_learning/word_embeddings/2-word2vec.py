@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-from pyexpat import model
-
 import gensim
 
 
