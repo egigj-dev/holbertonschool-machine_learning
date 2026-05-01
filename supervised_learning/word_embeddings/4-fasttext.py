@@ -24,7 +24,8 @@ def fasttext_model(
         sg=0 if cbow else 1,
         negative=negative,
         seed=seed,
-        workers=workers
+        workers=workers,
+        epochs=epochs
     )
 
     model.build_vocab(tokenized_sentences)
