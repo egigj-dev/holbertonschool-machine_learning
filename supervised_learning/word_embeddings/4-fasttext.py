@@ -14,15 +14,21 @@ def fasttext_model(
     workers=1
 ):
     model = gensim.models.FastText(
-        sentences=sentences,
         vector_size=vector_size,
         window=window,
         min_count=min_count,
-        sg=0 if cbow else 1,
+        sg=1 if cbow else 0,   
         negative=negative,
         seed=seed,
         workers=workers,
         epochs=epochs
+    )
+
+    model.build_vocab(sentences)
+    model.train(
+        sentences,
+        total_examples=model.corpus_count,
+        epochs=model.epochs
     )
 
     return model
