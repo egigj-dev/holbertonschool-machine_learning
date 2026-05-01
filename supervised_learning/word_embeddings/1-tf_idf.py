@@ -20,7 +20,8 @@ def tf_idf(sentences, vocab=None):
 
     # --- tokenizer ---
     def tokenize(text):
-        return re.findall(r"\b\w+\b", text.lower())
+        text = re.sub(r"'s\b", "", text.lower())  # strip possessives BEFORE tokenizing
+        return re.findall(r"[a-z]+", text)
 
     tokenized_sentences = [tokenize(s) for s in sentences]
 

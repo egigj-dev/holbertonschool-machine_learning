@@ -39,7 +39,8 @@ def word2vec_model(
         negative=negative,
         seed=seed,
         workers=workers,
-        epochs=epochs
+        epochs=epochs,
+        hashfxn=hash   # explicit hash function for reproducibility
     )
     model.build_vocab(sentences)
     model.train(sentences, total_examples=model.corpus_count, epochs=model.epochs)
