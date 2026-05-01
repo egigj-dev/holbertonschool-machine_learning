@@ -13,11 +13,8 @@ def fasttext_model(
     seed=0,
     workers=1
 ):
-
-    # sentences are already tokenized → DO NOT split or lowercase
-    tokenized_sentences = sentences
-
     model = gensim.models.FastText(
+        sentences=sentences,
         vector_size=vector_size,
         window=window,
         min_count=min_count,
@@ -25,14 +22,6 @@ def fasttext_model(
         negative=negative,
         seed=seed,
         workers=workers,
-        epochs=epochs
-    )
-
-    model.build_vocab(tokenized_sentences)
-
-    model.train(
-        tokenized_sentences,
-        total_examples=model.corpus_count,
         epochs=epochs
     )
 
