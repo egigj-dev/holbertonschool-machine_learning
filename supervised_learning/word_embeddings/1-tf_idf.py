@@ -48,18 +48,21 @@ def tf_idf(sentences, vocab=None):
         # smoothing to avoid division by zero
         idf[word] = math.log((s + 1) / (df[word] + 1)) + 1
 
-    # --- compute TF-IDF matrix ---
-    norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
-    norms[norms == 0] = 1
-    embeddings = embeddings / norms
+    # initialize FIRST
+    embeddings = np.zeros((s, f), dtype=float)
 
+    # fill SECOND
     for i, sent in enumerate(tokenized_sentences):
         tf = Counter(sent)
         total_terms = len(sent)
-
         for word, count in tf.items():
             if word in word_to_index:
                 tf_val = count / total_terms
                 embeddings[i, word_to_index[word]] = tf_val * idf[word]
 
-    return embeddings, vocab
+    # normalize THIRD
+    norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
+    norms[norms == 0] = 1
+    embeddings = embeddings / norms
+
+    return embeddings, np.array(vocab)
