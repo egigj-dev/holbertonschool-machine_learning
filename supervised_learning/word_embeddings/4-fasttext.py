@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import genism
+import gensim
 
 
 def fasttext_model(
@@ -15,20 +15,6 @@ def fasttext_model(
 ):
     """
     Creates, builds, and trains a FastText model using gensim.
-
-    Parameters:
-    - sentences: list of sentences (tokenized or raw strings)
-    - vector_size: embedding dimension
-    - min_count: minimum word frequency
-    - window: context window size
-    - negative: negative sampling size
-    - cbow: True = CBOW, False = Skip-gram
-    - epochs: training iterations
-    - seed: random seed
-    - workers: number of threads
-
-    Returns:
-    - trained FastText model
     """
 
     # tokenization (gensim expects list of token lists)
@@ -41,13 +27,13 @@ def fasttext_model(
         vector_size=vector_size,
         window=window,
         min_count=min_count,
-        sg=0 if cbow else 1,   # 0 = CBOW, 1 = Skip-gram
+        sg=0 if cbow else 1,
         negative=negative,
         seed=seed,
         workers=workers
     )
 
-    # build vocabulary (important step in gensim)
+    # build vocabulary
     model.build_vocab(tokenized_sentences)
 
     # train model

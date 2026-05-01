@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from gensim.models import Word2Vec
+import gensim
 
 
 def word2vec_model(
@@ -36,7 +36,7 @@ def word2vec_model(
         sentence.lower().split() for sentence in sentences
     ]
 
-    model = Word2Vec(
+    model = gensim.models.Word2Vec(
         sentences=tokenized_sentences,
         vector_size=vector_size,
         window=window,
