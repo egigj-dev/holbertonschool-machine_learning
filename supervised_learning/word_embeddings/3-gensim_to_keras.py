@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-import numpy as np
-from tensorflow.keras.layers import Embedding
+import tensorflow as tf
 
 
 def gensim_to_keras(model):
@@ -21,14 +20,15 @@ def gensim_to_keras(model):
     embedding_dim = model.vector_size
 
     # initialize embedding matrix
-    embedding_matrix = np.zeros((vocab_size, embedding_dim))
+    #embedding_matrix = np.zeros((vocab_size, embedding_dim))
+    embedding_matrix = [[0.0] * embedding_dim for _ in range(vocab_size)]  # list of lists to avoid numpy dependency
 
     # map words to indices in gensim vocab
     for i, word in enumerate(model.wv.index_to_key):
         embedding_matrix[i] = model.wv[word]
 
     # create Keras embedding layer (trainable=True by default)
-    embedding_layer = Embedding(
+    embedding_layer = tf.keras.layers.Embedding(
         input_dim=vocab_size,
         output_dim=embedding_dim,
         weights=[embedding_matrix],
