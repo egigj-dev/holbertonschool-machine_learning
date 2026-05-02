@@ -1,34 +1,25 @@
 #!/usr/bin/env python3
+"""Creates and trains a gensim FastText model."""
 import gensim
 
 
-def fasttext_model(
-    sentences,
-    vector_size=100,
-    min_count=5,
-    negative=5,
-    window=5,
-    cbow=True,
-    epochs=5,
-    seed=0,
-    workers=1
-):
+def fasttext_model(sentences, vector_size=100, min_count=5,
+                   window=5, negative=5, cbow=True,
+                   epochs=5, seed=0, workers=1):
+    """Creates and trains a gensim FastText model."""
+    sg = 0 if cbow else 1
     model = gensim.models.FastText(
+        sentences=sentences,
         vector_size=vector_size,
-        window=window,
         min_count=min_count,
-        sg=0 if cbow else 1,   
+        window=window,
         negative=negative,
+        sg=sg,
+        epochs=epochs,
         seed=seed,
-        workers=workers,
-        epochs=epochs
+        workers=workers
     )
-
     model.build_vocab(sentences)
-    model.train(
-        sentences,
-        total_examples=model.corpus_count,
-        epochs=model.epochs
-    )
-
+    model.train(sentences, total_examples=model.corpus_count,
+                epochs=model.epochs)
     return model
