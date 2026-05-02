@@ -32,11 +32,11 @@ def uni_bleu(references, sentence):
 
     # Brevity penalty
     ref_lens = [len(r) for r in references]
-    closest_ref_len = min(ref_lens, key=lambda rl: (abs(rl - sentence_len), rl))
+    clsest_ref_len = min(ref_lens, key=lambda rl: (abs(rl - sentence_len), rl))
 
-    if sentence_len > closest_ref_len:
+    if sentence_len > clsest_ref_len:
         bp = 1
     else:
-        bp = math.exp(1 - closest_ref_len / sentence_len)
+        bp = math.exp(1 - clsest_ref_len / sentence_len)
 
     return bp * precision
