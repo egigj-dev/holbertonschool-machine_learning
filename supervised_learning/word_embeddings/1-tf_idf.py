@@ -1,50 +1,42 @@
 #!/usr/bin/env python3
-import numpy as np
+"""Creates a TF-IDF embedding matrix."""
 import re
 import math
 from collections import Counter, defaultdict
+import numpy as np
 
 
 def tf_idf(sentences, vocab=None):
-    """
-    Creates a TF-IDF embedding matrix.
-    """
-
-    # --- tokenizer ---
+    """Creates a TF-IDF embedding matrix."""
     def tokenize(text):
+        """Tokenizes text to lowercase words, removing possessives."""
         text = re.sub(r"'s\b", "", text.lower())
         return re.findall(r"[a-z]+", text)
 
     tokenized_sentences = [tokenize(s) for s in sentences]
-
     s = len(sentences)
 
-    # --- build vocab if not provided ---
     if vocab is None:
-        vocab = sorted(set(word for sent in tokenized_sentences for word in sent))
+        vocab = sorted(
+            set(word for sent in tokenized_sentences for word in sent)
+        )
 
     f = len(vocab)
-
     word_to_index = {word: i for i, word in enumerate(vocab)}
 
-    # --- compute document frequency (DF) ---
     df = defaultdict(int)
     for sent in tokenized_sentences:
-        unique_words = set(sent)
-        for word in unique_words:
+        for word in set(sent):
             if word in word_to_index:
                 df[word] += 1
 
-    # --- compute IDF ---
-    idf = {}
-    for word in vocab:
-        # smoothing to avoid division by zero
-        idf[word] = math.log((s + 1) / (df[word] + 1)) + 1
+    idf = {
+        word: math.log((s + 1) / (df[word] + 1)) + 1
+        for word in vocab
+    }
 
-    # initialize FIRST
     embeddings = np.zeros((s, f), dtype=float)
 
-    # fill SECOND
     for i, sent in enumerate(tokenized_sentences):
         tf = Counter(sent)
         total_terms = len(sent)
@@ -53,7 +45,6 @@ def tf_idf(sentences, vocab=None):
                 tf_val = count / total_terms
                 embeddings[i, word_to_index[word]] = tf_val * idf[word]
 
-    # normalize THIRD
     norms = np.linalg.norm(embeddings, axis=1, keepdims=True)
     norms[norms == 0] = 1
     embeddings = embeddings / norms
