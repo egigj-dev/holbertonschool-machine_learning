@@ -5,6 +5,7 @@ from collections import Counter
 
 
 def get_ngrams(tokens, n):
+    """Returns tokens n-grams as tuples"""
     return [tuple(tokens[i:i+n]) for i in range(len(tokens) - n + 1)]
 
 

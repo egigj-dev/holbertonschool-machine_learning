@@ -8,19 +8,11 @@ from collections import Counter, defaultdict
 def tf_idf(sentences, vocab=None):
     """
     Creates a TF-IDF embedding matrix.
-
-    Parameters:
-    - sentences: list of strings
-    - vocab: list of vocabulary words (optional)
-
-    Returns:
-    - embeddings: numpy.ndarray of shape (s, f)
-    - features: list of vocabulary words used
     """
 
     # --- tokenizer ---
     def tokenize(text):
-        text = re.sub(r"'s\b", "", text.lower())  # strip possessives BEFORE tokenizing
+        text = re.sub(r"'s\b", "", text.lower())
         return re.findall(r"[a-z]+", text)
 
     tokenized_sentences = [tokenize(s) for s in sentences]

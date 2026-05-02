@@ -7,14 +7,6 @@ from collections import Counter
 def bag_of_words(sentences, vocab=None):
     """
     Creates a Bag-of-Words embedding matrix.
-
-    Parameters:
-    - sentences: list of strings
-    - vocab: list of vocabulary words (optional)
-
-    Returns:
-    - embeddings: numpy array of shape (s, f)
-    - features: list of vocabulary features used
     """
 
     # Simple tokenizer (lowercase + keep words only)
